@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 const allowedOrigins = [
     "http://localhost:5173",
-    "https://",
+    "https://url-shortner-xi-steel.vercel.app/",
 ];
 
 app.use(cors({
