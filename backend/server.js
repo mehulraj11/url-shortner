@@ -33,7 +33,7 @@ connectDB();
 
 app.use('/api', urlRoutes);
 
-app.get('/api/health', (req, res) => {
+app.get('/', (req, res) => {
     res.json({ status: 'OK', timestamp: new Date().toISOString(), uptime: process.uptime() });
 });
 
