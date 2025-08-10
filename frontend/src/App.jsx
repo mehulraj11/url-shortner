@@ -5,11 +5,10 @@ import ShortUrlResult from "./components/ShortUrlResult";
 import Features from "./components/Features";
 import AdminDashboard from "./components/AdminDashboard";
 
-const API_BASE = "http://localhost:5000/api";
-
 export default function App() {
   const [url, setUrl] = useState("");
   const [shortUrl, setShortUrl] = useState("");
+  const [originalUrl, setOriginalUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
@@ -17,15 +16,60 @@ export default function App() {
   const [copied, setCopied] = useState("");
 
   const fetchUrls = async () => {
-    /* same as before */
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/admin/urls`
+      );
+      const data = await response.json();
+      if (response.ok) {
+        setUrls(data);
+      }
+    } catch (err) {
+      console.error("Failed to fetch URLs:", err);
+    }
   };
+
   const toggleAdmin = () => {
     setIsAdmin(!isAdmin);
     if (!isAdmin) fetchUrls();
   };
   const handleSubmit = async () => {
-    /* same as before */
+    if (!url) return;
+
+    setLoading(true);
+    setError("");
+    setShortUrl("");
+
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_BACKEND_URL}/shorten`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ url }),
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+      if (response.ok) {
+        setShortUrl(`${data.shortCode}`);
+        setOriginalUrl(data.originalUrl);
+        setUrl("");
+        if (isAdmin) fetchUrls();
+      } else {
+        setError(data.message || "Failed to shorten URL");
+      }
+    } catch (err) {
+      setError("Network error. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
+
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text);
     setCopied(text);
@@ -56,6 +100,7 @@ export default function App() {
               />
               {error && <p className="text-red-600">{error}</p>}
               <ShortUrlResult
+                originalUrl={originalUrl}
                 shortUrl={shortUrl}
                 copyToClipboard={copyToClipboard}
                 copied={copied}

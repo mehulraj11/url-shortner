@@ -20,7 +20,7 @@ export default function UrlForm({
           id="url"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          placeholder="https://example.com/very/long/url/path"
+          placeholder="https://example.com/veryLongURL"
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
           required
         />
@@ -32,15 +32,15 @@ export default function UrlForm({
         type="button"
         onClick={handleSubmit}
         disabled={loading || !url || !isValidUrl(url)}
-        className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400"
+        className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-400 cursor-pointer"
       >
         {loading ? (
           "Shortening..."
         ) : (
-          <>
+          <div className="flex items-center justify-center">
             <Link2 className="w-4 h-4 mr-2" />
             Shorten URL
-          </>
+          </div>
         )}
       </button>
     </div>

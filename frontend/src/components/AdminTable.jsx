@@ -31,18 +31,19 @@ export default function AdminTable({ urls, copyToClipboard }) {
               </td>
               <td className="px-4 py-3 text-center flex justify-center space-x-2">
                 <button
+                  className="cursor-pointer"
                   onClick={() =>
                     copyToClipboard(`http://localhost:5000/${u.shortCode}`)
                   }
                 >
-                  <Copy className="w-4 h-4" />
+                  <Copy className="w-4 h-4 " />
                 </button>
                 <a
-                  href={`http://localhost:5000/${u.shortCode}`}
+                  href={u.originalUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <ExternalLink className="w-4 h-4 cursor-pointer" />
                 </a>
               </td>
             </tr>

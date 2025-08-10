@@ -1,5 +1,10 @@
 import { Copy, ExternalLink } from "lucide-react";
-export default function ShortUrlResult({ shortUrl, copyToClipboard, copied }) {
+export default function ShortUrlResult({
+  originalUrl,
+  shortUrl,
+  copyToClipboard,
+  copied,
+}) {
   if (!shortUrl) return null;
   return (
     <div className="mt-6 p-6 bg-green-50 border border-green-200 rounded-lg">
@@ -10,12 +15,12 @@ export default function ShortUrlResult({ shortUrl, copyToClipboard, copied }) {
         <code className="flex-1 text-blue-600 font-mono">{shortUrl}</code>
         <button
           onClick={() => copyToClipboard(shortUrl)}
-          className="p-2 text-gray-500 hover:text-blue-600"
+          className="p-2 text-gray-500 hover:text-blue-600 cursor-pointer"
         >
-          <Copy className="w-4 h-4" />
+          <Copy className="w-4 h-4 " />
         </button>
         <a
-          href={shortUrl}
+          href={originalUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="p-2 text-gray-500 hover:text-blue-600"
